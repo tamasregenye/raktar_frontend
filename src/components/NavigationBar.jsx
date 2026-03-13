@@ -1,6 +1,18 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
+import { useAuth } from "../features/auth/stores/authProvider";
+import { toast } from "sonner";
 
 export default function NavigationBar() {
+    const { role, logout } = useAuth();
+    const navigate = useNavigate();
+
+    //TODO kilépés
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+        toast.info("Sikeres kijelentkezés");
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -23,7 +35,13 @@ export default function NavigationBar() {
                                 </NavLink>
                                 <ul className="dropdown-menu">
                                     <li><NavLink className="dropdown-item" to="/kategoriak">lista</NavLink></li>
-                                    <li><NavLink className="dropdown-item" to="/kategoriak/letrehozas">létrehozás</NavLink></li>
+
+                                    {/* kategória létrehozás menüpont elérése csak admin jogosultsággal */}
+
+                                    {role === 'admin' && (
+                                        <li><NavLink className="dropdown-item" to="/kategoriak/letrehozas">létrehozás</NavLink></li>
+                                    )}
+
                                 </ul>
                             </li>
                             {/* Kategóriák vége*/}
@@ -42,6 +60,12 @@ export default function NavigationBar() {
                             {/* termékek vége */}
 
                         </ul>
+
+                        {role && (
+                            <button type="button" className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
+                                Kijelentkezés
+                            </button>
+                        )}
                     </div>
                 </div>
             </nav>

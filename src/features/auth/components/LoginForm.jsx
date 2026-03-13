@@ -13,7 +13,7 @@ export function LoginForm( {onLogin} ){
             return;
         }
 
-        onLogin();
+        onLogin(userEmail, userPassword);
     }
 
     return(
@@ -29,7 +29,7 @@ export function LoginForm( {onLogin} ){
             {/* jelszó */}
             <div className="p-3 form-group">
                 <label className="form-label" htmlFor="password">Jelszó:</label>
-                <input className="form-control" type="text" required id="password" value={userPassword} onChange={ (e) => { setUserPassword(e.target.value) }}/>
+                <input className="form-control" type="password" required id="password" value={userPassword} onChange={ (e) => { setUserPassword(e.target.value) }}/>
             </div>
 
             {/* belépés gomb */}
