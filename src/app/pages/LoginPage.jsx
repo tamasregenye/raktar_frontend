@@ -2,16 +2,22 @@ import { useNavigate } from "react-router";
 import { LoginForm } from "../../features/auth/components/LoginForm";
 import { authApi } from "../../features/auth/api/authApi";
 import { toast } from "sonner";
+import { useAuth } from "../../features/auth/stores/authProvider";
 
 export function LoginPage() {
 
     const navigate = useNavigate();
+
+    const { login } = useAuth();
 
     const handleLogin = async (email, password) => {
 
         try {
             //1. kérés indítása
             const data = await authApi.login(email, password);
+
+            login(data.token);
+            
             const successMessage = data.valasz ? data.valasz : "Sikeres bejelentkezés";
             toast.success(successMessage);
             navigate("/");
