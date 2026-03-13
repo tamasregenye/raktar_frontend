@@ -8,53 +8,63 @@ import { CategoryAddPage } from "./pages/CategoryAddPage";
 import { ProductEditPage } from "./pages/ProductEditPage";
 import { ProductDeletePage } from "./pages/ProductDeletePage";
 import { LoginPage } from "./pages/LoginPage";
+import { ProtectedRoute } from "../components/ProtectedRoute";
 
 export const router = createBrowserRouter(
     [
         {
-            path: "/",
-            element: <MainLayout/>,
-            errorElement: <NotFoundPath/>,
+            path: "login",
+            element: <LoginPage />
+        },
+
+
+        {/* TODO RegisterPage*/ },
+        {
+            element: <ProtectedRoute />,
             children: [
                 {
-                    index: true,
-                    element: <HomePage/>
-                },
-                {
-                    path: "termekek",
+                    path: "/",
+                    element: <MainLayout />,
+                    errorElement: <NotFoundPath />,
                     children: [
                         {
                             index: true,
-                            element: <ProductPage/>
+                            element: <HomePage />
                         },
                         {
-                            path: "modositas",
-                            element: <ProductEditPage/>
+                            path: "termekek",
+                            children: [
+                                {
+                                    index: true,
+                                    element: <ProductPage />
+                                },
+                                {
+                                    path: "modositas",
+                                    element: <ProductEditPage />
+                                },
+                                {
+                                    path: "torles",
+                                    element: <ProductDeletePage />
+                                }
+                            ]
                         },
                         {
-                            path: "torles",
-                            element: <ProductDeletePage/>
-                        }
+                            path: "kategoriak",
+                            children: [
+                                {
+                                    index: true,
+                                    element: <CategoryPage />,
+                                },
+                                {
+                                    path: "letrehozas",
+                                    element: <CategoryAddPage />
+                                }
+                            ]
+                        },
                     ]
-                },
-                {
-                    path: "kategoriak",
-                    children: [
-                        {
-                            index: true,
-                            element: <CategoryPage/>,
-                        },
-                        {
-                            path: "letrehozas",
-                            element: <CategoryAddPage/>
-                        }
-                    ]
-                },
-                {
-                    path: "login",
-                    element: <LoginPage/>
                 }
             ]
         }
+
     ]
 )
