@@ -9,6 +9,7 @@ import { ProductEditPage } from "./pages/ProductEditPage";
 import { ProductDeletePage } from "./pages/ProductDeletePage";
 import { LoginPage } from "./pages/LoginPage";
 import { ProtectedRoute } from "../components/ProtectedRoute";
+import { RegisterPage } from "./pages/RegisterPage";
 
 export const router = createBrowserRouter(
     [
@@ -16,9 +17,10 @@ export const router = createBrowserRouter(
             path: "login",
             element: <LoginPage />
         },
-
-
-        {/* TODO RegisterPage*/ },
+        {
+            path: "regisztracio",
+            element: <RegisterPage/>
+        },
         {
             element: <ProtectedRoute />,
             children: [
