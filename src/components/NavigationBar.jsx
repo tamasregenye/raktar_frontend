@@ -3,7 +3,7 @@ import { useAuth } from "../features/auth/stores/authProvider";
 import { toast } from "sonner";
 
 export default function NavigationBar() {
-    const { role, logout } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     //TODO kilépés
@@ -38,7 +38,7 @@ export default function NavigationBar() {
 
                                     {/* kategória létrehozás menüpont elérése csak admin jogosultsággal */}
 
-                                    {role === 'admin' && (
+                                    {user.isAdmin && (
                                         <li><NavLink className="dropdown-item" to="/kategoriak/letrehozas">létrehozás</NavLink></li>
                                     )}
 
@@ -61,7 +61,7 @@ export default function NavigationBar() {
 
                         </ul>
 
-                        {role && (
+                        {user && (
                             <button type="button" className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
                                 Kijelentkezés
                             </button>
