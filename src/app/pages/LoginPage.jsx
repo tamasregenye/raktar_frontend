@@ -37,6 +37,10 @@ export function LoginPage() {
         <div className="row justify-content-center">
             <div className="col-12 col-md-8 col-lg-6">
                 <LoginForm onLogin={handleLogin} />
+                <p className="mt-3 text-center">
+                    Nincs még fiókod? 
+                    <a href="/regisztracio">Regisztráció</a>
+                </p>
             </div>
         </div>
     )
