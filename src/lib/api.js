@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TOKEN_STORAGE_KEY } from "../config/constants";
+import { ACCESS_TOKEN_STORAGE_KEY } from "../config/constants";
 
 export const api = axios.create(
     {
@@ -13,7 +13,7 @@ export const api = axios.create(
 //token hozzáfűzése a kérések fejlécébe
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+        const token = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY);
         if(token){
             config.headers.Authorization=`Bearer ${token}`;
         }

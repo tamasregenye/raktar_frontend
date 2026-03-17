@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useState } from "react";
-import { TOKEN_STORAGE_KEY } from "../../../config/constants";
+import { ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY } from "../../../config/constants";
 import { User } from "../../user/models/userModel";
 import { toast } from "sonner";
 
@@ -9,13 +9,13 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
     const [token, setToken] = useState(
         () => {
-            return localStorage.getItem(TOKEN_STORAGE_KEY)
+            return localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
         }
     );
 
     const [user, setUser] = useState(
         () => {
-            const savedToken = localStorage.getItem(TOKEN_STORAGE_KEY)
+            const savedToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
             if (savedToken) {
                 try {
                     //token payload részéből ki tudom nyerni a felhasználóhoz tartozó információkat
@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
                 catch (error) {
                     //hiba esetén token törlése
                     toast.error('Hiba a felhasználó azonosítása során')
-                    localStorage.removeItem(TOKEN_STORAGE_KEY)
+                    localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
                     return null;
                 }
             }
@@ -35,15 +35,18 @@ export function AuthProvider({ children }) {
         }
     );
 
-    const login = (jwtToken) => {
+    const login = (accessToken, refreshToken) => {
         //token elmentése localStorage-be
-        localStorage.setItem(TOKEN_STORAGE_KEY, jwtToken);
+        localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken);
+
+        //TODO refresh token biztonságos tárolása
+        localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken);
 
         //token elmentése a memóriába - React globális állapotváltozóba
-        setToken(jwtToken);
+        setToken(accessToken);
 
         //token dekódolása és a User osztálypéldány létrehozása - majd elmentése React globális állapotváltozóba
-        const decodedToken = jwtDecode(jwtToken);
+        const decodedToken = jwtDecode(accessToken);
         const user = User.fromToken(decodedToken);
         console.log(user);
         setUser(user)
@@ -53,7 +56,7 @@ export function AuthProvider({ children }) {
         setToken(null);
         setUser(null)
 
-        localStorage.removeItem(TOKEN_STORAGE_KEY);
+        localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
     }
 
     return (
