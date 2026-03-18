@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 import { ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY } from "../../../config/constants";
 import { User } from "../../user/models/userModel";
 import { toast } from "sonner";
+import { authApi } from "../api/authApi";
 
 const AuthContext = createContext(null);
 
@@ -35,12 +36,9 @@ export function AuthProvider({ children }) {
         }
     );
 
-    const login = (accessToken, refreshToken) => {
+    const login = (accessToken) => {
         //token elmentése localStorage-be
         localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken);
-
-        //TODO refresh token biztonságos tárolása
-        localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken);
 
         //token elmentése a memóriába - React globális állapotváltozóba
         setToken(accessToken);
@@ -53,6 +51,7 @@ export function AuthProvider({ children }) {
     }
 
     const logout = () => {
+        authApi.logout();
         setToken(null);
         setUser(null)
 

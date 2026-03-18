@@ -10,6 +10,12 @@ export const authApi = {
         return response.data;
     },
 
+    logout: async () => {
+        //ezzel a hívással fog törlődni a refreshToken a sütik közül
+        const response = await api.post("felhasznalok/kijelentkezes");
+        return response.data;
+    },
+
     register: async (userEmail, userPassword, userFullName) => {
         const response = await api.post("felhasznalok/regisztracio", {
             email: userEmail,
