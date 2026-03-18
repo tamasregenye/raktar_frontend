@@ -27,7 +27,7 @@ export function RegisterPage() {
     }
 
     return (
-        <div className="row justify-content-center">
+        <div className="container-fluid row justify-content-center">
             <div className="col-12 col-md-8 col-lg-6">
                 <RegisterForm onRegister={handleRegister} />
                 <p className="mt-3 text-center">
