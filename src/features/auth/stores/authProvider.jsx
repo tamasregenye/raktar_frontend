@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useState } from "react";
-import { ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY } from "../../../config/constants";
+import { ACCESS_TOKEN_STORAGE_KEY } from "../../../config/constants";
 import { User } from "../../user/models/userModel";
 import { toast } from "sonner";
 import { authApi } from "../api/authApi";

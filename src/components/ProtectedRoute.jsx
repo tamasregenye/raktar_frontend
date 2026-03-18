@@ -14,31 +14,31 @@ export function ProtectedRoute({ allowedRoles }) {
     const { token, user, logout } = useAuth();
     const location = useLocation();
 
-    useEffect(() => {
-        if (!token || !user || !user.lejarToken) return;
+    // useEffect(() => {
+    //     if (!token || !user || !user.lejarToken) return;
 
-        const handleExpiration = () => {
-            logout();
-            toast.error('Lejárt a munkamenet, jelentkezz be újra!');
-        }
+    //     const handleExpiration = () => {
+    //         logout();
+    //         toast.error('Lejárt a munkamenet, jelentkezz be újra!');
+    //     }
 
-        const expirationTimeInMs = (user.lejarToken * 1000) - Date.now();
+    //     const expirationTimeInMs = (user.lejarToken * 1000) - Date.now();
 
-        if (expirationTimeInMs <= 0) {
-            handleExpiration();
-        }
-        else {
-            //időzítő indítása, felhasználó kiléptetése a token lejártakor
-            const timer = setTimeout(() => {
-                handleExpiration();
-            }, expirationTimeInMs)
+    //     if (expirationTimeInMs <= 0) {
+    //         handleExpiration();
+    //     }
+    //     else {
+    //         //időzítő indítása, felhasználó kiléptetése a token lejártakor
+    //         const timer = setTimeout(() => {
+    //             handleExpiration();
+    //         }, expirationTimeInMs)
 
-            // korábbi időzítő törlése, ha a felhasználó átkattint egy másik oldalra
-            return () => clearTimeout(timer);
-        }
+    //         // korábbi időzítő törlése, ha a felhasználó átkattint egy másik oldalra
+    //         return () => clearTimeout(timer);
+    //     }
 
 
-    }, [user, location.pathname])
+    // }, [user, location.pathname])
 
     if (!token || !user) {
         return <Navigate to="/login" />
